@@ -31,9 +31,7 @@ int main() {
 			else if (!left.empty() && s[i] == '-')
 				left.pop();
 			else if(s[i] != '<' && s[i] != '>'&& s[i] != '-')
-			{
 				left.push(s[i]);
-			}
 		}
 
 		while (!left.empty())
