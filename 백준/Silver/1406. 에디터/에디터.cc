@@ -1,54 +1,77 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int arr[26];
-
-int main()
+enum edit
 {
+	L = 'L',
+	D = 'D',
+	B = 'B',
+	P = 'P'
+};
+
+int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 	cout.tie(NULL);
-	
-	string ls;
-	cin >> ls;
-	list<char> li;
-	for (auto c : ls)
-		li.push_back(c);
 
-	int n;
-	cin >> n;
-	char a, b;
-	auto cusur = li.end();
-	for (int i = 0; i < n; i++)
+	string s;
+	int m;
+	char c, d;
+	cin >> s;
+	stack<char> left, right;
+
+	for (int i = 0; i < s.length(); i++)
 	{
-		cin >> a;
-		if (a == 'L')
-		{
-			if (cusur == li.begin())
-				continue;
-			cusur--;
-		}
-		else if (a == 'D')
-		{
-			if (cusur == li.end())
-				continue;
-			cusur++;
-		}
-		else if (a == 'B')
-		{
-			if (cusur == li.begin())
-				continue;
-			auto tmp = cusur;
-			li.erase(--tmp);
-		}
-		else if (a == 'P')
-		{
-			cin >> b;
-			li.insert(cusur, b);
-		}
+		left.push(s[i]);
 	}
 
-	for (auto c : li)
-		cout << c;
+	cin >> m;
+
+	while (m)
+	{
+		cin >> c;
+		switch (c)
+		{
+		case L:
+			if (!left.empty())
+			{
+				right.push(left.top());
+				left.pop();
+			}
+			break;
+		case D:
+			if (!right.empty())
+			{
+				left.push(right.top());
+				right.pop();
+			}
+			break;
+		case B:
+			if (!left.empty())
+				left.pop();
+			break;
+		case P:
+			cin >> d;
+			left.push(d);
+			break;
+		default:
+			break;
+		}
+
+		m--;
+	}
+
+	while (!left.empty())
+	{
+		right.push(left.top());
+		left.pop();
+	}
+	while (!right.empty())
+	{
+		cout << right.top();
+		right.pop();
+	}
+
 	return 0;
 }
+
