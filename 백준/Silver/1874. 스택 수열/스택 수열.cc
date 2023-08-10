@@ -2,49 +2,47 @@
 using namespace std;
 
 
-int main()
-{
+int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 	cout.tie(NULL);
 
-	int n, cnt = 1;
-	cin >> n;
-	vector<int> vec(n+1);
-	vector<bool> check;
 	stack<int> st;
-	st.push(cnt);
-	check.emplace_back(true);
-	for (int i = 1; i <= n; i++)
-	{
-		cin >> vec[i];
-	}
+	int n, a, max = 1;
+	cin >> n;
+	vector<char> vec;
 
-	for (int i = 1; i <= n; i++)
+	while (n)
 	{
-		while(st.empty() ||vec[i] != st.top())
+		cin >> a;
+
+		if (!st.empty() && st.top() == a)
 		{
-			cnt++;
-			if (cnt > n)
-			{
-				cout << "NO";
-				return 0;
-			}
-
-			st.push(cnt);
-			check.emplace_back(true);
+			st.pop();
+			vec.emplace_back('-');
 		}
-		st.pop();
-		check.emplace_back(false);
-	}
-
-	for (auto c : check)
-	{
-		if (c)
-			cout << '+' << '\n';
+		else if (max <= a)
+		{
+			for (int i = max; i <= a; i++)
+			{
+				st.push(i);
+				vec.emplace_back('+');
+				max = a + 1;
+			}
+			vec.emplace_back('-');
+			st.pop();
+		}
 		else
-			cout << '-' << '\n';
+		{
+			cout << "NO";
+			return 0;
+		}
+
+		n--;
 	}
 
+	for (auto c : vec)
+		cout << c << '\n';
 	return 0;
 }
+
