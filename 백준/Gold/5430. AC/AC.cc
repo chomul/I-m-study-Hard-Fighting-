@@ -1,78 +1,81 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void parse(string& tmp, deque<int>& d) {
-	int cur = 0;
-	for (int i = 1; i + 1 < tmp.size(); i++)
-	{
-		if (tmp[i] == ',') {
-			d.push_back(cur);
-			cur = 0;
-		}
-		else {
-			cur = 10 * cur + (tmp[i] - '0');
-		}
-	}
-	if (cur != 0)
-		d.push_back(cur);
-}
-
-int main()
-{
+int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 	cout.tie(NULL);
 
-	int n;
+	deque<int> dq;
+	string s, temp;
+	int n, m;
 	cin >> n;
 
 	while (n--)
 	{
-		deque<int> dq;
-		string s, ss;
-		int k;
+		cin >> s >> m >> temp;
+		
+		// 문자열 입력 받은것에서 숫자만 출력하여 저장
+		int cnt = 0;
+		for (int i = 1; i < temp.size(); i++)
+		{
+			if (temp[i] >= '0' && temp[i] <= '9')
+			{
+				cnt = cnt * 10 + (temp[i] - '0');
+			}
+			else
+			{
+				if(cnt != 0)
+					dq.push_back(cnt);
+				cnt = 0;
+			}
+		}
+
+		// 문제 실행
 		bool error = false, rever = false;
-		cin >> s >> k >> ss;
-
-		parse(ss, dq);
-
 		for (int i = 0; i < s.size(); i++)
 		{
 			if (s[i] == 'R')
 			{
 				rever = !rever;
 			}
-			else
+			else if (s[i] == 'D')
 			{
 				if (dq.empty())
 				{
 					error = true;
 					break;
 				}
-				
-				if(!rever) dq.pop_front();
-				else dq.pop_back();
-
+				else 
+				{
+					if (rever)
+						dq.pop_back();
+					else
+						dq.pop_front();
+				}
 			}
 		}
 
+		// 정답 출력
 		if (error)
-			cout << "error" << '\n';
+			cout << "error\n";
 		else
 		{
-			if(rever) reverse(dq.begin(), dq.end());
+			if (rever) reverse(dq.begin(), dq.end());
+
 			cout << '[';
+
 			while (!dq.empty())
 			{
-				if(dq.size() == 1)
+				if (dq.size() == 1)
 					cout << dq.front();
 				else
 					cout << dq.front() << ',';
+
 				dq.pop_front();
 			}
 			cout << ']' << '\n';
 		}
-
 	}
 
 	return 0;
