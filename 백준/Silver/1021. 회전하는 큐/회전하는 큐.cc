@@ -1,15 +1,13 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-
-int main()
-{
+int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 	cout.tie(NULL);
 
 	deque<int> dq;
-	int n, m, cnt = 0;
+	int n, m, cnt = 0, del;
 	cin >> n >> m;
 
 	for (int i = 1; i <= n; i++)
@@ -17,14 +15,15 @@ int main()
 		dq.push_back(i);
 	}
 
-	for (int i = 0; i < m; i++)
+	while (m--)
 	{
-		int a;
-		cin >> a;
-		int idx = find(dq.begin(), dq.end(), a) - dq.begin();
-		while(dq.front() != a)
+		cin >> del;
+
+		auto location = find(dq.begin(), dq.end(), del) - dq.begin();
+
+		while (dq.front() != del)
 		{
-			if(idx < dq.size() - idx)
+			if (location < dq.size() - location)
 			{
 				dq.push_back(dq.front());
 				dq.pop_front();
@@ -39,7 +38,8 @@ int main()
 		}
 		dq.pop_front();
 	}
-
 	cout << cnt;
+
 	return 0;
 }
+
