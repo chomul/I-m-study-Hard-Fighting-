@@ -1,9 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int board[502][502] = { 0 };
-bool vis[502][502];
-int n = 7, m = 10, cnt = 0, max1= 0, tmp = 0;
+int vis[502][502];
+int arr[502][502];
 int dx[4] = { 1,0,-1,0 };
 int dy[4] = { 0,1,0,-1 };
 
@@ -12,53 +11,50 @@ int main() {
 	cin.tie(NULL);
 	cout.tie(NULL);
 
+	int n, m;
 	cin >> n >> m;
-	for (int i = 0; i < n; i++)
-	{
-		for (int j = 0; j < m; j++)
-		{
-			cin >> board[i][j];
-		}
-	}
+	int cnt = 0, mx = 0;
+	int maxS = 0;
+	queue<pair<int, int> > Q;
 
-	queue<pair<int, int>> Q;
+	for (int i = 0; i < n; i++)
+		for (int j = 0; j < m; j++)
+			cin >> arr[i][j];
 
 	for (int i = 0; i < n; i++)
 	{
 		for (int j = 0; j < m; j++)
 		{
-			if (board[i][j] == 1 && vis[i][j] == 0)
+			if (arr[i][j] == 1 && vis[i][j] == 0) // 방문안한거 첫 방문 Start
 			{
-				Q.push({ i,j });
-				vis[i][j] = 1;
 				cnt++;
-				max1 = 0;
+				Q.push(make_pair(i, j));  // 첫 방문 위치 기준점
+				vis[i][j] = 1;
 
 				while (!Q.empty())
 				{
-					auto cur = Q.front();
+					pair<int, int> cur = Q.front();
 					Q.pop();
-					max1++;
-					for (int dir = 0; dir < 4; dir++)
-					{
+					mx++;
+
+					for (int dir = 0; dir < 4; dir++) {
 						int nx = cur.first + dx[dir];
 						int ny = cur.second + dy[dir];
-
-						if (nx < 0 || nx >= n || ny < 0 || ny >= m) continue; // 범위 밖일 경우
-						if (vis[nx][ny] || board[nx][ny] != 1) continue; // 이미 방문한 칸 or 사용 가능한 칸이 아닐 경우
+						if (nx < 0 || nx >= n || ny < 0 || ny >= m) continue;
+						if (vis[nx][ny] || arr[nx][ny] != 1) continue;
 						vis[nx][ny] = 1;
-						Q.push({ nx, ny });
+						Q.push({ nx,ny });
+
 					}
 				}
-				if(tmp < max1)
-					tmp = max1;
-
+				maxS = max(mx, maxS);
+				mx = 0;
 			}
-
 		}
 	}
-	
-	cout << cnt << '\n' << tmp;
+
+	cout << cnt << '\n' << maxS;
 
 	return 0;
 }
+
