@@ -34,6 +34,8 @@ int main() {
 				pair<int, int> cur = Q.front();
 				Q.pop();
 
+				if (vis[lx][ly]) break;
+
 				for (int dir = 0; dir < 8; dir++)
 				{
 					int nx = cur.first + dxy[dir].first;
