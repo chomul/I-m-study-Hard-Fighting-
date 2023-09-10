@@ -1,43 +1,29 @@
-#include <iostream>
-#include <array>
-#include <algorithm>
-#include <list>
-#include <vector>
-
+#include <bits/stdc++.h>
 using namespace std;
 
+int d[1000005];
+int n;
 
-int D[1000001];
-
-int main()
-{
+int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 	cout.tie(NULL);
 
-	int n;
 	cin >> n;
 
-	D[1] = 0;
-	D[2] = 1;
-	D[3] = 1;
+	d[1] = 0;
 
-	for (int i = 4; i <= n; i++)
+	for (int i = 2; i <= n; i++)
 	{
-		D[i] = D[i - 1] + 1;
-		if (i % 3 == 0)
-		{
-			D[i] = min(D[i / 3] + 1, D[i]);
-		}
+		d[i] = d[i - 1] + 1;
+		if (i % 3 == 0) 
+			d[i] = min(d[i], d[i / 3] + 1);
 
 		if (i % 2 == 0)
-		{
-			D[i] = min(D[i / 2] + 1, D[i]);
-		}
-
+			d[i] = min(d[i], d[i / 2] + 1);
 	}
 
-	cout << D[n];
+	cout << d[n];
 
 	return 0;
 }
