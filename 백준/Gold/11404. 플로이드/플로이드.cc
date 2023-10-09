@@ -13,14 +13,14 @@ int main() {
     cin >> n >> m;
 
     for (int i = 1; i <= n; i++)
-        fill(floid[i], floid[i] + 1 + n, 0x3f3f3f3f);
-    for (int i = 1; i <= n; i++) floid[i][i] = 0;
+        fill(floid[i], floid[i] + 1 + n, 0x3f3f3f3f);   // 기본 무한대 설정
+    for (int i = 1; i <= n; i++) floid[i][i] = 0;       // 자기 자신 0 설정
 
     for (int i = 0; i < m; i++)
     {
         int a, b, c;
         cin >> a >> b >> c;
-        floid[a][b] = min(floid[a][b], c);
+        floid[a][b] = min(floid[a][b], c);              // min 사용 이유는 문제 조건때문
     }
 
     for (int k = 1; k <= n; k++)
@@ -28,8 +28,9 @@ int main() {
         for (int i = 1; i <= n; i++)
         {
             for (int j = 1; j <= n; j++)
-            {
-                floid[i][j] = min(floid[i][j], floid[i][k] + floid[k][j]);
+            {   // min 과 같은 의미이지만 시간상으로 더 유리
+                if(floid[i][k] + floid[k][j] < floid[i][j]) floid[i][j] = floid[i][k] + floid[k][j]; 
+                // floid[i][j] = min(floid[i][j], floid[i][k] + floid[k][j]);
             }
         }
     }
@@ -38,7 +39,7 @@ int main() {
     {
         for (int j = 1; j <= n; j++)
         {
-            if (floid[i][j] == 0x3f3f3f3f)
+            if (floid[i][j] == 0x3f3f3f3f)            // 무한대 처리
                 cout << 0 << ' ';
             else cout << floid[i][j] << ' ';
         }
