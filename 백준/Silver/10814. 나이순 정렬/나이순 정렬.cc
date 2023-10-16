@@ -1,27 +1,22 @@
-#include<iostream> 
-#include<algorithm> 
-#include<vector> 
-#include<cmath>
-#include<string>
+#include <bits/stdc++.h>
+#include "unordered_set"
 using namespace std;
 
-bool compare(pair<int, string> a, pair<int, string> b) {
-	return a.first < b.first;
-}
+int main(void) 
+{
+    ios::sync_with_stdio(0);
+    cin.tie(0);
 
-int main() {
-	int n;
-	cin >> n;
-	vector<pair<int, string>> arr;
-	for (int i = 0; i < n; i++) {
-		int a;
-		string b;
-		cin >> a >> b;
-		arr.push_back({ a, b });
-	}
-	stable_sort(arr.begin(), arr.end(), compare);
-		
-	for (auto c : arr)
-		cout << c.first << " " << c.second << '\n';
+    int n;
+    cin >> n;
+    vector<pair<int, string>> vec(n);
+
+    for (int i = 0; i < n; i++)
+        cin >> vec[i].first >> vec[i].second;
+
+    stable_sort(vec.begin(), vec.end(), [](pair<int, string> a, pair<int, string> b) {return a.first < b.first; });
+
+    for (auto c : vec)
+        cout << c.first << ' ' << c.second << '\n';
 
 }
