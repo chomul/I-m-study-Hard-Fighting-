@@ -10,32 +10,32 @@ vector<int> solution(vector<string> enroll, vector<string> referral, vector<stri
     vector<int> answer;
 
     unordered_map<string, pair<int, int>> data;
-    for (int i = 0; i < enroll.size(); i++)
-        data.insert({enroll[i],{i, 0}});
-
     
+    for(int i = 0; i < enroll.size(); i++)
+        data.insert({enroll[i], {i, 0}});
+
     for (int i = 0; i < seller.size(); i++)
     {
-        string currname = seller[i];
-        int currmoney = amount[i] * 100;
+        string cur_name = seller[i];
+        int cur_money = amount[i] * 100;   
         
         while (true)
         {
-            if (currmoney == 0) break;
-            if (referral[data[currname].first] == "-")
+            if (cur_money <= 0) break;
+            if (referral[data[cur_name].first] == "-")
             {
-                data[currname].second += ceil(currmoney * 0.9);
+                data[cur_name].second += ceil(cur_money * 0.9);
                 break;
             }
 
-            data[currname].second += ceil(currmoney * 0.9);
-            currname = referral[data[currname].first];
-            currmoney = currmoney - ceil(currmoney * 0.9);
+            data[cur_name].second += ceil(cur_money * 0.9);
+            cur_name = referral[data[cur_name].first];
+            cur_money = cur_money - ceil(cur_money * 0.9);            
         }
     }
 
-    for (auto name : enroll)
-        answer.emplace_back(data[name].second);
-    
+    for (auto c : enroll)
+        answer.push_back(data[c].second);
+        
     return answer;
 }
