@@ -6,80 +6,78 @@
 #include <unordered_set>
 using namespace std;
 
+int parent[200001];
+int size_set[200001];
 
-vector<int> parent(200002, -1);
-vector<int> setsize(200002, 0);
-
-// 들어있는 집합 번호 찾기
-int find(int x) {
+int find(int x)
+{
     if (parent[x] == x) return x;
-    return parent[x] = find(parent[x]);
+    return parent[x] = find(parent[x]);    
 }
 
-// 루트를 집합에 포함
-int union_sets(int x, int y) {
+bool union_sets(int x, int y)
+{
     x = find(x);
     y = find(y);
-    if (x != y) {
-        parent[y] = x;
-        setsize[x] += setsize[y];
-    }
-    return setsize[x];
-}
 
-void solution()
-{
-    int F;
-    cin >> F;
-
-    unordered_map<string, int> name_to_index;
-    for (int i = 0; i < 100001; ++i) {
-        parent[i] = -1;
-        setsize[i] = 0;
-    }
-
-    // 집합 번호
-    int set_index = 1;
-    for (int i = 0; i < F; ++i)
+    // 같은 그룹이기 때문에 Union 진행 X
+    if (x == y) return false;
+    else
     {
-        string name1, name2;
-        cin >> name1 >> name2;
-
-        // 이름을 정수 인덱스로 매핑
-        if (name_to_index.find(name1) == name_to_index.end())
-        {
-            name_to_index[name1] = set_index;
-            parent[set_index] = set_index;
-            setsize[set_index]++;
-            set_index++;
-        }
-        if (name_to_index.find(name2) == name_to_index.end())
-        {
-            name_to_index[name2] = set_index;
-            parent[set_index] = set_index;
-            setsize[set_index]++;
-            set_index++;
-        }
-
-        int idx1 = name_to_index[name1];
-        int idx2 = name_to_index[name2];
-
-        int net_size = union_sets(idx1, idx2);
-
-        cout << net_size << "\n";
+        parent[y] = x;
+        size_set[x] += size_set[y];
+        return true;       
     }
 }
+
+
 
 int main(int argc, char* argv[])
 {
     ios::sync_with_stdio(false);
     cin.tie(NULL);
-    
+    cout.tie(NULL);
+
     int n;
     cin >> n;
 
-    for (int i = 0; i < n; i++)
-        solution();
+    while (n--)
+    {
+        int f;
+        cin >> f;
 
+        for (int i = 0; i < 200001; i++)
+        {   // 값 초기화
+            parent[i] = 0;
+            size_set[i] = 0;       
+        }
+
+        unordered_map<string, int> map;
+        string a, b;
+        int set_index = 1;
+
+        for (int i = 0; i < f; i++)
+        {
+            cin >> a >> b;
+
+            if (map.find(a) == map.end())
+            {
+                map[a] = set_index;
+                parent[set_index] = set_index;
+                size_set[set_index] = 1;
+                set_index++;
+            }
+            if (map.find(b) == map.end())
+            {
+                map[b] = set_index;
+                parent[set_index] = set_index;
+                size_set[set_index] = 1;
+                set_index++;
+            }
+
+            union_sets(map[a], map[b]);
+            cout << size_set[find(map[a])] << '\n';       
+        }
+    }
     return 0;
 }
