@@ -46,10 +46,10 @@ int main()
     int count = 0;
     for (int i = 0; i < order.size(); i++)
     {   // 플러그인 여유 자리가 있을 경우
+        map[order[i]].pop();
         if (plug.size() != n)
         {
-            plug.insert(order[i]);
-            map[order[i]].pop();
+            plug.insert(order[i]);            
         }
         else // 플러그인이 꽉찬 경우
         {   // 플러그인 뽑아야 하는 경우
@@ -75,13 +75,8 @@ int main()
                 }
                 plug.erase(max);
                 plug.insert(order[i]);
-                map[order[i]].pop();
                 
                 count++;
-            }
-            else
-            {
-                map[order[i]].pop();
             }
         }
     }
