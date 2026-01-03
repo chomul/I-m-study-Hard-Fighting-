@@ -6,17 +6,20 @@ using namespace std;
 
 bool solution(string s)
 {
+    bool answer = true;
+
     stack<char> st;
-    for(auto c : s)
+    
+    for(int i = 0; i < s.length(); i++)
     {
-        if(c == '(')
-            st.push(c);
+        if(s[i] == '(')
+        {
+            st.push(s[i]);
+        }
         else
         {
-            if(!st.empty() && st.top() == '(')
-                st.pop();   
-            else
-                return false;
+            if(!st.empty() && st.top() == '(') st.pop();
+            else st.push(s[i]);
         }       
     }
 
